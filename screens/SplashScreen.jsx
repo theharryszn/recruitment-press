@@ -1,11 +1,20 @@
-import { Text, View } from "native-base";
+import { Spinner, Text, VStack } from "native-base";
 import React from "react";
+import { fonts } from "../App";
 
 const SplashScreen = () => {
   return (
-    <View>
-      <Text>Recruitment Press</Text>
-    </View>
+    <VStack
+      flex='1'
+      alignItems='center'
+      justifyContent='space-between'
+      py='1/4'
+    >
+      <Text fontSize='3xl' fontFamily={fonts.semibold}>
+        Recruitment Press
+      </Text>
+      <Spinner size='lg' color='red.600' />
+    </VStack>
   );
 };
 
