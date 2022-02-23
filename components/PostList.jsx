@@ -11,7 +11,7 @@ const PostList = () => {
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
     axios
-      .get("https://www.recruitmentpress.com/wp-json/wp/v2/posts/")
+      .get("https://www.recruitmentpress.com/wp-json/wp/v2/posts")
       .then((res) => {
         setData(res.data);
       });
@@ -50,13 +50,9 @@ const PostList = () => {
             >
               <Media id={item.featured_media} size='home-middle' rounded='md' />
               <VStack flex='1' justifyContent='space-between' space='2'>
-                <Text fontSize='lg' fontFamily={fonts.medium}>
-                  {item.title.rendered}
-                </Text>
+                <Text fontSize='lg'>{item.title.rendered}</Text>
                 <HStack>
-                  <Text color='gray.600' fontFamily={fonts.semibold}>
-                    {moment(item.date).format("ll")}
-                  </Text>
+                  <Text color='gray.600'>{moment(item.date).format("ll")}</Text>
                 </HStack>
               </VStack>
             </HStack>

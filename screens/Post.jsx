@@ -20,7 +20,10 @@ import { fonts } from "../theme";
 
 const baseStyle = {
   fontSize: 20,
-  fontFamily: fonts.regular,
+};
+
+const headingStyle = {
+  fontSize: 38,
 };
 
 const Post = ({ route }) => {
@@ -41,7 +44,7 @@ const Post = ({ route }) => {
 
   const { width, height } = useWindowDimensions();
 
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
 
   return (
     <View flex='1'>
@@ -59,7 +62,7 @@ const Post = ({ route }) => {
           _pressed={{
             opacity: 0.5,
           }}
-          bg={getColor("black opacity-10")}
+          bg={getColor("gray-100 opacity-50")}
           rounded='full'
           p='2'
           onPress={() => goBack()}
@@ -74,18 +77,19 @@ const Post = ({ route }) => {
               id={data.featured_media}
               rounded='md'
               bg='gray.200'
-              w='full'
               resizeMode='cover'
-              h='64'
+              responsiveImg
             />
             <VStack p='2' space='2'>
-              <Text fontSize='2xl' fontFamily={fonts.bold}>
-                {data.title.rendered}
-              </Text>
+              <RenderHTML
+                contentWidth={width}
+                baseStyle={headingStyle}
+                source={{
+                  html: data.title.rendered,
+                }}
+              />
               <HStack>
-                <Text fontSize='md' fontFamily={fonts.semibold}>
-                  {moment(data.date).fromNow()}
-                </Text>
+                <Text fontSize='md'>{moment(data.date).fromNow()}</Text>
               </HStack>
               <RenderHTML
                 contentWidth={width}
@@ -93,6 +97,15 @@ const Post = ({ route }) => {
                   html: data.content.rendered,
                 }}
                 baseStyle={baseStyle}
+                renderersProps={{
+                  a: {
+                    onPress: (e, url) => {
+                      navigate("Browser", {
+                        url,
+                      });
+                    },
+                  },
+                }}
                 enableCSSInlineProcessing
                 systemFonts={[fonts.regular]}
               />

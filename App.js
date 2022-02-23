@@ -1,4 +1,4 @@
-import { StatusBar } from "react-native";
+import { StatusBar, Linking } from "react-native";
 import { NativeBaseProvider } from "native-base";
 import { enableScreens } from "react-native-screens";
 import Navigator from "./navigator";

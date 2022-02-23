@@ -37,11 +37,6 @@ export const customFonts = {
   
   export const theme = extendTheme({
     components: {
-      Text: {
-        defaultProps: {
-          fontFamily: "Inter_400Regular",
-        },
-      },
       Button: {
         defaultProps: {
           bg: "red.600",
