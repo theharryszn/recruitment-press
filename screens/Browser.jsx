@@ -8,11 +8,13 @@ import {
   VStack,
 } from "native-base";
 import WebView from "react-native-webview";
+import { Linking } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
   ArrowClockwise,
   CaretLeft,
   CaretRight,
+  ArrowSquareOut,
   X,
 } from "phosphor-react-native";
 
@@ -42,12 +44,15 @@ const Browser = (props) => {
           <Pressable p='2' onPress={() => ref.current.reload()}>
             <ArrowClockwise color='black' size={18} />
           </Pressable>
+          <Pressable p='2' onPress={() => ref.current.goBack()}>
+            <CaretLeft color='black' size={20} />
+          </Pressable>
+          <Pressable p='2' onPress={() => ref.current.goForward()}>
+            <CaretRight color='black' size={20} />
+          </Pressable>
         </HStack>
-        <Pressable p='2' onPress={() => ref.current.goBack()}>
-          <CaretLeft color='black' size={20} />
-        </Pressable>
-        <Pressable p='2' onPress={() => ref.current.goForward()}>
-          <CaretRight color='black' size={20} />
+        <Pressable p='2' onPress={() => Linking.openURL(uri)}>
+          <ArrowSquareOut color='black' size={20} />
         </Pressable>
       </HStack>
       <Progress

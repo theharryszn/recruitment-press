@@ -15,7 +15,9 @@ import React from "react";
 import { useWindowDimensions } from "react-native";
 import RenderHTML from "react-native-render-html";
 import { getColor } from "tailwind-rn";
+import CommentsList from "../components/CommentsList";
 import Media from "../components/Media";
+import ReccomendedPosts from "../components/RecommendedPosts";
 import { fonts } from "../theme";
 
 const baseStyle = {
@@ -26,21 +28,42 @@ const headingStyle = {
   fontSize: 38,
 };
 
+const tagsStyles = {
+  body: {
+    whiteSpace: "normal",
+    color: "black",
+  },
+  a: {
+    color: getColor("red-600"),
+  },
+};
+
 const Post = ({ route }) => {
   const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const scrollRef = React.useRef();
   React.useEffect(() => {
+    setLoading(true);
     axios
       .get(
         `https://recruitmentpress.com/wp-json/wp/v2/posts/${route.params.post.id}`
       )
       .then((res) => {
+        setLoading(false);
         setData(res.data);
         console.log(res.data.id);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   }, [route]);
+
+  React.useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ x: 0, y: 0, animated: true });
+    }
+  }, [scrollRef, route]);
 
   const { width, height } = useWindowDimensions();
 
@@ -70,8 +93,8 @@ const Post = ({ route }) => {
           <CaretLeft weight='bold' color='black' size={22} />
         </Pressable>
       </HStack>
-      <ScrollView p='1'>
-        {data !== null ? (
+      <ScrollView p='1' ref={scrollRef}>
+        {loading !== true && data !== null ? (
           <>
             <Media
               id={data.featured_media}
@@ -94,9 +117,10 @@ const Post = ({ route }) => {
               <RenderHTML
                 contentWidth={width}
                 source={{
-                  html: data.content.rendered,
+                  html: data.content.rendered.replace("<p>&nbsp;</p>", ""),
                 }}
                 baseStyle={baseStyle}
+                tagsStyles={tagsStyles}
                 renderersProps={{
                   a: {
                     onPress: (e, url) => {
@@ -109,6 +133,8 @@ const Post = ({ route }) => {
                 enableCSSInlineProcessing
                 systemFonts={[fonts.regular]}
               />
+              <CommentsList post={data} />
+              <ReccomendedPosts title='More' />
             </VStack>
           </>
         ) : (

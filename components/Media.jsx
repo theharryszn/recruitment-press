@@ -18,14 +18,14 @@ const Media = ({ id, size = "full", responsiveImg = false, ...rest }) => {
       });
   }, [id]);
 
-  if (media === null) {
+  if (media === undefined || media === null) {
     return null;
   }
 
   return (
     <Image
       alt={media.alt_text}
-      source={{ uri: media.media_details.sizes[size].source_url }}
+      source={{ uri: media?.media_details?.sizes[size]?.source_url || "" }}
       w={responsiveImg ? "full" : "24"}
       h={
         responsiveImg

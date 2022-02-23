@@ -3,11 +3,10 @@ import { FlatList, HStack, Pressable, Text, VStack } from "native-base";
 import React from "react";
 import { fonts } from "../theme";
 import moment from "moment";
-import { useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Media from "./Media";
 
-const FeaturedPosts = ({ title = "Featured" }) => {
+const ReccomendedPosts = ({ title = "Reccomended" }) => {
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
     axios
@@ -23,16 +22,13 @@ const FeaturedPosts = ({ title = "Featured" }) => {
 
   const { navigate } = useNavigation();
 
-  const { width } = useWindowDimensions();
-
   return (
-    <VStack bg='gray.100'>
+    <VStack>
       <Text px='4' py='2' fontSize='xl' fontFamily={fonts.semibold}>
         {title}
       </Text>
       <FlatList
-        horizontal
-        data={data}
+        data={data.slice(0, 4)}
         p='2'
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => {
@@ -44,24 +40,22 @@ const FeaturedPosts = ({ title = "Featured" }) => {
                   post: item,
                 });
               }}
-              h='72'
             >
-              <VStack
+              <HStack
                 bg='white'
                 mx='1'
                 p='3'
                 rounded='md'
                 alignItems='center'
                 space='2'
-                h='72'
-                w={width * 0.7}
+                w='full'
               >
                 <Media
                   id={item.featured_media}
                   size='home-middle'
                   rounded='md'
-                  w='full'
-                  h='40'
+                  w='20'
+                  h='20'
                 />
                 <VStack flex='1' justifyContent='space-between' space='2'>
                   <Text fontSize='lg' numberOfLines={3}>
@@ -73,7 +67,7 @@ const FeaturedPosts = ({ title = "Featured" }) => {
                     </Text>
                   </HStack>
                 </VStack>
-              </VStack>
+              </HStack>
             </Pressable>
           );
         }}
@@ -82,4 +76,4 @@ const FeaturedPosts = ({ title = "Featured" }) => {
   );
 };
 
-export default FeaturedPosts;
+export default ReccomendedPosts;

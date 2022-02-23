@@ -10,7 +10,7 @@ const SplashScreen = () => {
     setTimeout(() => {
       navigate("Home");
     }, 3000);
-  }, [navigate]);
+  });
 
   return (
     <VStack
