@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Image } from "native-base";
+import { HStack, Image } from "native-base";
 import { useWindowDimensions } from "react-native";
 import React from "react";
 
@@ -19,7 +19,7 @@ const Media = ({ id, size = "full", responsiveImg = false, ...rest }) => {
   }, [id]);
 
   if (media === undefined || media === null) {
-    return null;
+    return <HStack w={responsiveImg ? "full" : "24"} h='24' />;
   }
 
   return (

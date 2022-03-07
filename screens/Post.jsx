@@ -10,7 +10,7 @@ import {
   View,
   VStack,
 } from "native-base";
-import { CaretLeft } from "phosphor-react-native";
+import { BookmarkSimple, CaretLeft, Heart } from "phosphor-react-native";
 import React from "react";
 import { useWindowDimensions } from "react-native";
 import RenderHTML from "react-native-render-html";
@@ -19,6 +19,7 @@ import CommentsList from "../components/CommentsList";
 import Media from "../components/Media";
 import ReccomendedPosts from "../components/RecommendedPosts";
 import { fonts } from "../theme";
+import { StoreContext } from "../context/Store";
 
 const baseStyle = {
   fontSize: 20,
@@ -68,30 +69,54 @@ const Post = ({ route }) => {
   const { width, height } = useWindowDimensions();
 
   const { goBack, navigate } = useNavigation();
+  const { likePost, addBookmark, likes, bookmarks } =
+    React.useContext(StoreContext);
 
   return (
     <View flex='1'>
-      <HStack
-        px='6'
-        py='4'
-        position='absolute'
-        top='0'
-        left='0'
-        w='full'
-        elevation={2}
-        zIndex={90}
-      >
+      <HStack px='4' py='2' w='full' justifyContent='space-between'>
         <Pressable
           _pressed={{
             opacity: 0.5,
           }}
-          bg={getColor("gray-100 opacity-50")}
           rounded='full'
           p='2'
           onPress={() => goBack()}
         >
           <CaretLeft weight='bold' color='black' size={22} />
         </Pressable>
+        <HStack space='2'>
+          <Pressable
+            _pressed={{
+              opacity: 0.5,
+            }}
+            rounded='full'
+            p='2'
+            onPress={() => likePost(data !== null ? data.id : null)}
+          >
+            <Heart
+              weight={likes.includes(route.params.post.id) ? "fill" : "bold"}
+              color={bookmarks.includes(route.params.post.id) ? "red" : "black"}
+              size={22}
+            />
+          </Pressable>
+          <Pressable
+            _pressed={{
+              opacity: 0.5,
+            }}
+            rounded='full'
+            p='2'
+            onPress={() => addBookmark(data !== null ? data.id : null)}
+          >
+            <BookmarkSimple
+              weight={
+                bookmarks.includes(route.params.post.id) ? "fill" : "bold"
+              }
+              color='black'
+              size={22}
+            />
+          </Pressable>
+        </HStack>
       </HStack>
       <ScrollView p='1' ref={scrollRef}>
         {loading !== true && data !== null ? (
@@ -112,7 +137,7 @@ const Post = ({ route }) => {
                 }}
               />
               <HStack>
-                <Text fontSize='md'>{moment(data.date).fromNow()}</Text>
+                <Text fontSize='md'>{moment(data.date).calendar()}</Text>
               </HStack>
               <RenderHTML
                 contentWidth={width}

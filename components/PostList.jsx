@@ -5,20 +5,41 @@ import moment from "moment";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Media from "./Media";
+import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
+import RenderHTML from "react-native-render-html";
 
-const PostList = () => {
+const headingStyle = {
+  fontSize: 20,
+};
+
+const PostList = ({ category }) => {
   const [data, setData] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     setLoading(true);
-    axios
-      .get(`https://www.recruitmentpress.com/wp-json/wp/v2/posts?page=${page}`)
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
-      });
-  }, [page]);
+    if (category.name === "All") {
+      axios
+        .get(`https://www.recruitmentpress.com/wp-json/wp/v2/posts`)
+        .then((res) => {
+          setData(res.data);
+          setLoading(false);
+        });
+    } else {
+      axios
+        .get(
+          `https://www.recruitmentpress.com/wp-json/wp/v2/posts?page=${page}&categories=${
+            category?.id || 1
+          }`
+        )
+        .then((res) => {
+          setData(res.data);
+          setLoading(false);
+        });
+    }
+  }, [page, category]);
+
+  const { width } = useWindowDimensions();
 
   const { navigate } = useNavigation();
 
@@ -37,11 +58,18 @@ const PostList = () => {
       bg='gray.100'
       ListFooterComponent={
         <HStack p='4' pb='10' alignItems='center' justifyContent='center'>
-          <Button onPress={() => setPage(page + 1)} py='2'>
+          <Button
+            onPress={() => setPage(page + 1)}
+            p='4'
+            w='1/2'
+            rounded='full'
+          >
             See More
           </Button>
         </HStack>
       }
+      refreshing={loading}
+      onRefresh={() => setPage(page)}
       keyExtractor={(_, index) => index.toString()}
       renderItem={({ item }) => {
         return (
@@ -63,7 +91,13 @@ const PostList = () => {
             >
               <Media id={item.featured_media} size='home-middle' rounded='md' />
               <VStack flex='1' justifyContent='space-between' space='2'>
-                <Text fontSize='lg'>{item.title.rendered}</Text>
+                <RenderHTML
+                  contentWidth={width}
+                  baseStyle={headingStyle}
+                  source={{
+                    html: item.title.rendered,
+                  }}
+                />
                 <HStack>
                   <Text color='gray.600'>{moment(item.date).format("ll")}</Text>
                 </HStack>

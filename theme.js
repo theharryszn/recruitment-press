@@ -42,5 +42,10 @@ export const customFonts = {
           bg: "red.600",
         },
       },
+      Pressable : {
+        _pressed:{
+          opacity: 0.5,
+        }
+      }
     },
   });

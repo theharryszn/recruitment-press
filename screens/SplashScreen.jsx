@@ -1,14 +1,14 @@
-import { useNavigation } from "@react-navigation/native";
+import { StackActions, useNavigation } from "@react-navigation/native";
 import { Spinner, Text, VStack } from "native-base";
 import React from "react";
 import { fonts } from "../theme";
 
 const SplashScreen = () => {
-  const { navigate } = useNavigation();
+  const { dispatch } = useNavigation();
 
   React.useEffect(() => {
     setTimeout(() => {
-      navigate("Home");
+      dispatch(StackActions.replace("Home"));
     }, 3000);
   });
 
