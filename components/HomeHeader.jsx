@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { FlatList, HStack, Pressable, Text, VStack } from "native-base";
-import { MagnifyingGlass } from "phosphor-react-native";
+import { House, MagnifyingGlass } from "phosphor-react-native";
 import React from "react";
 import { fonts } from "../theme";
 
@@ -18,7 +18,13 @@ export const TabBar = ({ changeCategory }) => {
     axios
       .get("https://recruitmentpress.com/wp-json/wp/v2/categories")
       .then((res) => {
-        setCategories([...categories, ...res.data]);
+        setCategories([
+          {
+            id: "All",
+            name: "All",
+          },
+          ...res.data,
+        ]);
         changeCategory(categories[0]);
       });
   }, [changeCategory, categories]);
@@ -35,16 +41,23 @@ export const TabBar = ({ changeCategory }) => {
               setActive(index);
               changeCategory(item);
             }}
+            p='3'
+            mx='2'
+            borderBottomWidth='2'
+            borderBottomColor={active === index ? "white" : "transparent"}
           >
-            <Text
-              p='3'
-              mx='2'
-              color='white'
-              borderBottomWidth='2'
-              borderBottomColor={active === index ? "white" : "transparent"}
-            >
-              {item.name}
-            </Text>
+            {item.name === "All" ? (
+              <HStack space='2'>
+                <House color='white' size={18} />
+                <Text fontSize='lg' color='white'>
+                  {item.name}
+                </Text>
+              </HStack>
+            ) : (
+              <Text fontSize='lg' color='white'>
+                {item.name}
+              </Text>
+            )}
           </Pressable>
         );
       }}

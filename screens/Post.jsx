@@ -83,7 +83,7 @@ const Post = ({ route }) => {
           p='2'
           onPress={() => goBack()}
         >
-          <CaretLeft weight='bold' color='black' size={22} />
+          <CaretLeft weight='regular' color='black' size={22} />
         </Pressable>
         <HStack space='2'>
           <Pressable
@@ -95,8 +95,12 @@ const Post = ({ route }) => {
             onPress={() => likePost(data !== null ? data.id : null)}
           >
             <Heart
-              weight={likes.includes(route.params.post.id) ? "fill" : "bold"}
-              color={bookmarks.includes(route.params.post.id) ? "red" : "black"}
+              weight={likes.includes(route.params.post.id) ? "fill" : "regular"}
+              color={
+                likes.includes(route.params.post.id)
+                  ? getColor("red-500")
+                  : "black"
+              }
               size={22}
             />
           </Pressable>
@@ -110,7 +114,7 @@ const Post = ({ route }) => {
           >
             <BookmarkSimple
               weight={
-                bookmarks.includes(route.params.post.id) ? "fill" : "bold"
+                bookmarks.includes(route.params.post.id) ? "fill" : "regular"
               }
               color='black'
               size={22}
@@ -137,7 +141,9 @@ const Post = ({ route }) => {
                 }}
               />
               <HStack>
-                <Text fontSize='md'>{moment(data.date).calendar()}</Text>
+                <Text color='red.500' fontSize='md'>
+                  {moment(data.date).calendar()}
+                </Text>
               </HStack>
               <RenderHTML
                 contentWidth={width}
