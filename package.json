@@ -1,11 +1,10 @@
 {
   "name": "recruitment-press",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start --tunnel",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .eslintignore --ext .js,.jsx . --fix"
@@ -40,7 +39,8 @@
     "react-native-web": "0.17.1",
     "react-native-webview": "^11.17.2",
     "react-query": "^3.34.12",
-    "tailwind-rn": "3.0.1"
+    "tailwind-rn": "3.0.1",
+    "expo-splash-screen": "~0.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
