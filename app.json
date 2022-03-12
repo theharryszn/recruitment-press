@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "recruitment-press",
+    "slug": "recruitment-press",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "recruitment-press"
+}
