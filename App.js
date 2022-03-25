@@ -35,7 +35,7 @@ export default function App() {
     <Store>
       <QueryClientProvider client={queryClient}>
         <NativeBaseProvider theme={theme}>
-          <StatusBar backgroundColor={getColor("red-500")} animated barStyle="light-content"/>
+          <StatusBar backgroundColor={"#EC1F25"} animated barStyle="light-content"/>
           <Navigator />
         </NativeBaseProvider>
       </QueryClientProvider>

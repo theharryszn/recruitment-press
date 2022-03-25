@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  HStack,
-  Text,
-  TextField,
-  VStack,
-  FlatList,
-  Spinner,
-  Pressable,
-} from "native-base";
+import { HStack, Text, VStack, FlatList, Pressable } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import { TouchableOpacity } from "react-native";
@@ -17,28 +9,15 @@ import RenderHTML from "react-native-render-html";
 import axios from "axios";
 import { ArrowLeft } from "phosphor-react-native";
 import { fonts } from "../theme";
+import { StoreContext } from "../context/Store";
 
 const headingStyle = {
   fontSize: 20,
 };
 
-const Search = () => {
-  const [data, setData] = React.useState([]);
-  const [searchText, setSearchText] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+const Bookmarks = () => {
+  const { bookmarks } = React.useContext(StoreContext);
   const { goBack } = useNavigation();
-
-  const search = () => {
-    setLoading(true);
-    axios
-      .get(
-        `https://www.recruitmentpress.com/wp-json/wp/v2/search?search=${searchText}`
-      )
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
-      });
-  };
 
   return (
     <VStack flex='1' pt='4'>
@@ -52,52 +31,26 @@ const Search = () => {
           <ArrowLeft color='black' size={22} />
         </Pressable>
         <Text fontFamily={fonts.bold} fontSize='3xl'>
-          Search
+          Bookmarks
         </Text>
       </HStack>
-      <HStack p='4' alignItems='center' justifyContent='center'>
-        <TextField
-          onChangeText={(t) => {
-            setSearchText(t);
-            search();
-          }}
-          w='full'
-          placeholder='Search'
-          rounded='lg'
-          fontSize='md'
-          borderWidth={0}
-          bg='coolGray.100'
-        />
-      </HStack>
       <VStack>
-        {!loading ? (
-          searchText.length !== 0 ? (
-            data.length !== 0 ? (
-              <FlatList
-                data={data}
-                p='2'
-                // eslint-disable-next-line react-native/no-inline-styles
-                contentContainerStyle={{
-                  paddingBottom: 150,
-                }}
-                keyExtractor={(_, index) => index.toString()}
-                renderItem={({ item }) => {
-                  return <SearchItem item={item} />;
-                }}
-              />
-            ) : (
-              <VStack py='10' alignItems='center' justifyContent='center'>
-                <Text>No Result</Text>
-              </VStack>
-            )
-          ) : (
-            <VStack py='10' alignItems='center' justifyContent='center'>
-              <Text>Enter Something to Search</Text>
-            </VStack>
-          )
+        {bookmarks.length !== 0 ? (
+          <FlatList
+            data={bookmarks}
+            p='2'
+            // eslint-disable-next-line react-native/no-inline-styles
+            contentContainerStyle={{
+              paddingBottom: 150,
+            }}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => {
+              return <SearchItem item={item} />;
+            }}
+          />
         ) : (
           <VStack py='10' alignItems='center' justifyContent='center'>
-            <Spinner size='sm' color='red.600' />
+            <Text>No Bookmarks</Text>
           </VStack>
         )}
       </VStack>
@@ -116,7 +69,7 @@ const SearchItem = ({ item }) => {
   React.useEffect(() => {
     setLoading(true);
     axios
-      .get(`https://recruitmentpress.com/wp-json/wp/v2/posts/${item.id}`)
+      .get(`https://recruitmentpress.com/wp-json/wp/v2/posts/${item}`)
       .then((res) => {
         setLoading(false);
         setData(res.data);
@@ -124,7 +77,7 @@ const SearchItem = ({ item }) => {
       .catch(() => {
         setLoading(false);
       });
-  }, [item.id]);
+  }, [item]);
 
   if (loading || !data) {
     return null;
@@ -165,4 +118,4 @@ const SearchItem = ({ item }) => {
   );
 };
 
-export default Search;
+export default Bookmarks;
