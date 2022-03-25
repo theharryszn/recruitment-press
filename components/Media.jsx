@@ -2,6 +2,7 @@ import axios from "axios";
 import { HStack, Image } from "native-base";
 import { useWindowDimensions } from "react-native";
 import React from "react";
+import { Briefcase } from "phosphor-react-native";
 
 const Media = ({ id, size = "full", responsiveImg = false, ...rest }) => {
   const [media, setMedia] = React.useState(null);
@@ -13,13 +14,27 @@ const Media = ({ id, size = "full", responsiveImg = false, ...rest }) => {
         setMedia(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("media", err);
         setMedia(null);
       });
   }, [id]);
 
-  if (media === undefined || media === null) {
-    return <HStack w={responsiveImg ? "full" : "24"} h='24' />;
+  if (
+    media === undefined ||
+    media === null ||
+    !media?.media_details?.sizes[size]?.source_url
+  ) {
+    return (
+      <HStack
+        bg='gray.100'
+        w={responsiveImg ? "full" : "24"}
+        h='24'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <Briefcase size={24} color='black' />
+      </HStack>
+    );
   }
 
   return (
@@ -27,11 +42,23 @@ const Media = ({ id, size = "full", responsiveImg = false, ...rest }) => {
       alt={media.alt_text}
       source={{ uri: media?.media_details?.sizes[size]?.source_url || "" }}
       w={responsiveImg ? "full" : "24"}
+      fallbackElement={() => (
+        <HStack
+          bg='gray.100'
+          w={responsiveImg ? "full" : "24"}
+          h='24'
+          justifyContent='center'
+          alignItems='center'
+        >
+          <Briefcase size={24} color='black' />
+        </HStack>
+      )}
       h={
         responsiveImg
           ? (width * media.media_details.height) / media.media_details.width
           : "24"
       }
+      bg='gray.100'
       {...rest}
     />
   );

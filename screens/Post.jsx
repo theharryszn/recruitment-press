@@ -74,8 +74,14 @@ const Post = ({ route }) => {
   const { width, height } = useWindowDimensions();
 
   const { goBack, navigate } = useNavigation();
-  const { likePost, addBookmark, likes, bookmarks } =
-    React.useContext(StoreContext);
+  const {
+    likePost,
+    addBookmark,
+    likes,
+    bookmarks,
+    removeBookmark,
+    removeLike,
+  } = React.useContext(StoreContext);
 
   return (
     <View flex='1'>
@@ -97,7 +103,11 @@ const Post = ({ route }) => {
             }}
             rounded='full'
             p='2'
-            onPress={() => likePost(data !== null ? data.id : null)}
+            onPress={() =>
+              likes.includes(route.params.post.id)
+                ? removeLike(route.params.post.id)
+                : likePost(route.params.post.id)
+            }
           >
             <Heart
               weight={likes.includes(route.params.post.id) ? "fill" : "regular"}
@@ -111,13 +121,15 @@ const Post = ({ route }) => {
             }}
             rounded='full'
             p='2'
-            onPress={() => addBookmark(data !== null ? data.id : null)}
+            onPress={() =>
+              bookmarks.includes(route.params.post.id)
+                ? removeBookmark(route.params.post.id)
+                : addBookmark(route.params.post.id)
+            }
           >
             <BookmarkSimple
               weight={
-                bookmarks.map((p) => p.id).includes(route.params.post.id)
-                  ? "fill"
-                  : "regular"
+                bookmarks.includes(route.params.post.id) ? "fill" : "regular"
               }
               color='black'
               size={22}

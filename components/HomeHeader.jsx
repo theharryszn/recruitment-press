@@ -29,12 +29,23 @@ export const TabBar = ({ changeCategory }) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changeCategory]);
+
+  const flatList = React.useRef();
+
+  React.useEffect(() => {
+    flatList.current?.scrollToIndex({
+      index: active,
+      animated: true,
+    });
+  }, [active]);
   return (
     <FlatList
       horizontal
+      ref={flatList}
       data={categories}
       showsHorizontalScrollIndicator={false}
       keyExtractor={(_, index) => index.toString()}
+      initialScrollIndex={active}
       renderItem={({ item, index }) => {
         return (
           <Pressable
