@@ -10,9 +10,14 @@ import {
   View,
   VStack,
 } from "native-base";
-import { BookmarkSimple, CaretLeft, Heart } from "phosphor-react-native";
+import {
+  BookmarkSimple,
+  CaretLeft,
+  Heart,
+  ShareNetwork,
+} from "phosphor-react-native";
 import React from "react";
-import { useWindowDimensions } from "react-native";
+import { useWindowDimensions, Share } from "react-native";
 import RenderHTML from "react-native-render-html";
 import { getColor } from "tailwind-rn";
 import CommentsList from "../components/CommentsList";
@@ -96,11 +101,7 @@ const Post = ({ route }) => {
           >
             <Heart
               weight={likes.includes(route.params.post.id) ? "fill" : "regular"}
-              color={
-                likes.includes(route.params.post.id)
-                  ? getColor("red-500")
-                  : "black"
-              }
+              color={likes.includes(route.params.post.id) ? "#EC1F25" : "black"}
               size={22}
             />
           </Pressable>
@@ -114,11 +115,28 @@ const Post = ({ route }) => {
           >
             <BookmarkSimple
               weight={
-                bookmarks.includes(route.params.post.id) ? "fill" : "regular"
+                bookmarks.map((p) => p.id).includes(route.params.post.id)
+                  ? "fill"
+                  : "regular"
               }
               color='black'
               size={22}
             />
+          </Pressable>
+          <Pressable
+            _pressed={{
+              opacity: 0.5,
+            }}
+            rounded='full'
+            p='2'
+            onPress={() =>
+              Share.share({
+                url: data.link,
+                message: `Read ${data.link}`,
+              })
+            }
+          >
+            <ShareNetwork color='black' size={22} />
           </Pressable>
         </HStack>
       </HStack>
@@ -141,7 +159,7 @@ const Post = ({ route }) => {
                 }}
               />
               <HStack>
-                <Text color='red.500' fontSize='md'>
+                <Text color='main' fontSize='md'>
                   {moment(data.date).calendar()}
                 </Text>
               </HStack>

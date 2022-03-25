@@ -9,6 +9,7 @@ import SplashScreen from "./screens/SplashScreen";
 import Post from "./screens/Post";
 import Browser from "./screens/Browser";
 import Search from "./screens/Search";
+import Bookmarks from "./screens/Bookmarks";
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,13 @@ const Navigator = () => {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
           component={Search}
+        />
+        <Stack.Screen
+          name='Bookmarks'
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+          component={Bookmarks}
         />
         <Stack.Screen
           name='Browser'

@@ -36,6 +36,9 @@ export const customFonts = {
   }
   
   export const theme = extendTheme({
+    colors : {
+      main : "#EC1F25"
+    },
     components: {
       Button: {
         defaultProps: {

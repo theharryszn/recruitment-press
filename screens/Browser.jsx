@@ -59,7 +59,7 @@ const Browser = (props) => {
         value={loadingProgress * 100}
         h='0.5'
         _filledTrack={{
-          bg: "red.500",
+          bg: "main",
         }}
         bg='red.100'
       />

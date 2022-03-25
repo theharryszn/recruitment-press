@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { FlatList, HStack, Pressable, Text, VStack } from "native-base";
-import { House, MagnifyingGlass } from "phosphor-react-native";
+import { Bookmarks, House, MagnifyingGlass } from "phosphor-react-native";
 import React from "react";
 import { fonts } from "../theme";
 
@@ -27,7 +27,8 @@ export const TabBar = ({ changeCategory }) => {
         ]);
         changeCategory(categories[0]);
       });
-  }, [changeCategory, categories]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changeCategory]);
   return (
     <FlatList
       horizontal
@@ -68,7 +69,7 @@ export const TabBar = ({ changeCategory }) => {
 const HomeHeader = ({ changeCategory }) => {
   const { navigate } = useNavigation();
   return (
-    <VStack bg='red.500'>
+    <VStack backgroundColor='#EC1F25'>
       <HStack
         px='6'
         py='3'
@@ -85,9 +86,14 @@ const HomeHeader = ({ changeCategory }) => {
         <Text color='white' fontFamily={fonts.bold} fontSize='3xl'>
           Explore
         </Text>
-        <Pressable py='2' onPress={() => navigate("Search")}>
-          <MagnifyingGlass color='white' size={22} />
-        </Pressable>
+        <HStack space='5'>
+          <Pressable py='2' onPress={() => navigate("Search")}>
+            <MagnifyingGlass color='white' size={22} />
+          </Pressable>
+          <Pressable py='2' onPress={() => navigate("Bookmarks")}>
+            <Bookmarks color='white' size={22} />
+          </Pressable>
+        </HStack>
       </HStack>
 
       <TabBar changeCategory={changeCategory} />
