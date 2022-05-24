@@ -1,3 +1,11 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import moment from "moment";
@@ -84,7 +92,12 @@ const Post = ({ route }) => {
   } = React.useContext(StoreContext);
 
   return (
-    <View flex='1'>
+    <View
+      flex='1'
+      _ios={{
+        paddingTop: 10,
+      }}
+    >
       <HStack px='4' py='2' w='full' justifyContent='space-between'>
         <Pressable
           _pressed={{
@@ -111,7 +124,7 @@ const Post = ({ route }) => {
           >
             <Heart
               weight={likes.includes(route.params.post.id) ? "fill" : "regular"}
-              color={likes.includes(route.params.post.id) ? "#EC1F25" : "black"}
+              color={likes.includes(route.params.post.id) ? "#E44141" : "black"}
               size={22}
             />
           </Pressable>

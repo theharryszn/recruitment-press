@@ -1,3 +1,12 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
+
 import { extendTheme } from "native-base";
 import {
     Inter_100Thin,

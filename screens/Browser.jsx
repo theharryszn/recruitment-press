@@ -1,3 +1,11 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import React from "react";
 import {
   HStack,
@@ -25,7 +33,12 @@ const Browser = (props) => {
   const ref = React.useRef();
 
   return (
-    <VStack flex='1'>
+    <VStack
+      flex='1'
+      _ios={{
+        paddingTop: 10,
+      }}
+    >
       <HStack p='2'>
         <Pressable
           p='2'

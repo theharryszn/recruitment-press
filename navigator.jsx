@@ -1,3 +1,11 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import {
@@ -10,6 +18,7 @@ import Post from "./screens/Post";
 import Browser from "./screens/Browser";
 import Search from "./screens/Search";
 import Bookmarks from "./screens/Bookmarks";
+import About from "./screens/About";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +55,13 @@ const Navigator = () => {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
           component={Bookmarks}
+        />
+        <Stack.Screen
+          name='About'
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+          component={About}
         />
         <Stack.Screen
           name='Browser'

@@ -1,3 +1,11 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import axios from "axios";
 import { HStack, Image } from "native-base";
 import { useWindowDimensions } from "react-native";

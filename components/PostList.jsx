@@ -1,5 +1,13 @@
 import axios from "axios";
-import { Button, FlatList, HStack, Spinner, Text, VStack } from "native-base";
+import {
+  Button,
+  FlatList,
+  HStack,
+  Pressable,
+  Spinner,
+  Text,
+  VStack,
+} from "native-base";
 import React from "react";
 import moment from "moment";
 import { TouchableOpacity } from "react-native";
@@ -7,6 +15,8 @@ import { useNavigation } from "@react-navigation/native";
 import Media from "./Media";
 import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
 import RenderHTML from "react-native-render-html";
+import { StoreContext } from "../context/Store";
+import { BookmarkSimple, Heart } from "phosphor-react-native";
 
 const headingStyle = {
   fontSize: 20,
@@ -16,11 +26,23 @@ const PostList = ({ category }) => {
   const [data, setData] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [loading, setLoading] = React.useState(true);
+
+  const {
+    likePost,
+    addBookmark,
+    likes,
+    bookmarks,
+    removeBookmark,
+    removeLike,
+  } = React.useContext(StoreContext);
+
   React.useEffect(() => {
     setLoading(true);
     if (category.name === "All") {
       axios
-        .get(`https://www.recruitmentpress.com/wp-json/wp/v2/posts`)
+        .get(
+          `https://www.recruitmentpress.com/wp-json/wp/v2/posts?page=${page}`
+        )
         .then((res) => {
           setData(res.data);
           setLoading(false);
@@ -95,11 +117,51 @@ const PostList = ({ category }) => {
                   contentWidth={width}
                   baseStyle={headingStyle}
                   source={{
-                    html: item.title.rendered,
+                    html: item.title.rendered || "",
                   }}
                 />
-                <HStack>
+                <HStack justifyContent='space-between'>
                   <Text color='gray.600'>{moment(item.date).format("ll")}</Text>
+                  <HStack space='2'>
+                    <Pressable
+                      _pressed={{
+                        opacity: 0.5,
+                      }}
+                      rounded='full'
+                      p='2'
+                      onPress={() =>
+                        likes.includes(item.id)
+                          ? removeLike(item.id)
+                          : likePost(item.id)
+                      }
+                    >
+                      <Heart
+                        weight={likes.includes(item.id) ? "fill" : "regular"}
+                        color={likes.includes(item.id) ? "#E44141" : "black"}
+                        size={22}
+                      />
+                    </Pressable>
+                    <Pressable
+                      _pressed={{
+                        opacity: 0.5,
+                      }}
+                      rounded='full'
+                      p='2'
+                      onPress={() =>
+                        bookmarks.includes(item.id)
+                          ? removeBookmark(item.id)
+                          : addBookmark(item.id)
+                      }
+                    >
+                      <BookmarkSimple
+                        weight={
+                          bookmarks.includes(item.id) ? "fill" : "regular"
+                        }
+                        color='black'
+                        size={22}
+                      />
+                    </Pressable>
+                  </HStack>
                 </HStack>
               </VStack>
             </HStack>

@@ -1,7 +1,15 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { FlatList, HStack, Pressable, Text, VStack } from "native-base";
-import { Bookmarks, House, MagnifyingGlass } from "phosphor-react-native";
+import { Bookmarks, House, Info, MagnifyingGlass } from "phosphor-react-native";
 import React from "react";
 import { fonts } from "../theme";
 
@@ -59,7 +67,7 @@ export const TabBar = ({ changeCategory }) => {
             borderBottomColor={active === index ? "white" : "transparent"}
           >
             {item.name === "All" ? (
-              <HStack space='2'>
+              <HStack space='2' alignItems='center'>
                 <House color='white' size={18} />
                 <Text fontSize='lg' color='white'>
                   {item.name}
@@ -80,7 +88,12 @@ export const TabBar = ({ changeCategory }) => {
 const HomeHeader = ({ changeCategory }) => {
   const { navigate } = useNavigation();
   return (
-    <VStack backgroundColor='#EC1F25'>
+    <VStack
+      backgroundColor='#EC1F25'
+      _ios={{
+        paddingTop: 10,
+      }}
+    >
       <HStack
         px='6'
         py='3'
@@ -94,15 +107,23 @@ const HomeHeader = ({ changeCategory }) => {
         // borderBottomWidth='0.5'
         justifyContent='space-between'
       >
-        <Text color='white' fontFamily={fonts.bold} fontSize='3xl'>
-          Explore
-        </Text>
-        <HStack space='5'>
-          <Pressable py='2' onPress={() => navigate("Search")}>
+        <VStack>
+          <Text color='white' fontFamily={fonts.bold} fontSize='3xl'>
+            Explore
+          </Text>
+          <Text color='white' fontFamily={fonts.medium}>
+            Get the latest updates
+          </Text>
+        </VStack>
+        <HStack space='2'>
+          <Pressable p='2' onPress={() => navigate("Search")}>
             <MagnifyingGlass color='white' size={22} />
           </Pressable>
-          <Pressable py='2' onPress={() => navigate("Bookmarks")}>
+          <Pressable p='2' onPress={() => navigate("Bookmarks")}>
             <Bookmarks color='white' size={22} />
+          </Pressable>
+          <Pressable p='2' onPress={() => navigate("About")}>
+            <Info color='white' size={22} />
           </Pressable>
         </HStack>
       </HStack>

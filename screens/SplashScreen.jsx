@@ -1,3 +1,11 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { Image, Spinner, VStack } from "native-base";
 import React from "react";

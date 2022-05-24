@@ -1,3 +1,11 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import axios from "axios";
 import { FlatList, HStack, Pressable, Text, VStack } from "native-base";
 import React from "react";

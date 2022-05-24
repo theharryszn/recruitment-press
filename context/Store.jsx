@@ -1,3 +1,11 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -32,16 +40,11 @@ const Store = ({ children }) => {
   const likePost = async (id) => {
     if (id === null) return;
     setLikes([...likes, id]);
-    try {
-      const items = JSON.stringify(likes);
-      await AsyncStorage.setItem("likes", items);
-    } catch (e) {
-      // saving error
-      console.log(e);
-    }
   };
 
   React.useEffect(() => {
+    console.log("bookmarks", bookmarks.join("-"));
+
     const update = async () => {
       try {
         const items = JSON.stringify(bookmarks);
@@ -69,11 +72,13 @@ const Store = ({ children }) => {
 
   const addBookmark = async (id) => {
     if (id === null) return;
-    setBookmarks([...likes, id]);
+    console.log("id", id);
+    setBookmarks([...bookmarks, id]);
   };
 
   const removeLike = async (id) => {
     if (id === null) return;
+
     setLikes(likes.filter((i) => id !== i));
   };
   const removeBookmark = async (id) => {

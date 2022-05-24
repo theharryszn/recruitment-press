@@ -1,3 +1,12 @@
+/**
+ * @author OpeAbidemi
+ * @link https://github.com/OpeAbidemi
+ * @description Built for Recruitment Press
+ * @version 1.0
+ *
+ */
+
+
 import { LogBox } from "react-native";
 import { StatusBar } from "native-base";
 import { NativeBaseProvider } from "native-base";
