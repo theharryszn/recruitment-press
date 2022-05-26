@@ -11,7 +11,7 @@ import { HStack, Text, VStack, Pressable, Image } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeft } from "phosphor-react-native";
 import { fonts } from "../theme";
-import { Linking } from "react-native-web";
+import { Linking } from "react-native";
 
 const About = () => {
   const { goBack } = useNavigation();
@@ -45,21 +45,30 @@ const About = () => {
           height='32'
         />
         <Text color='black' fontFamily={fonts.bold} fontSize='xl'>
-          Recriutment Press
+          Recruitment Press
         </Text>
         <Text color='black'>Version 1.0</Text>
-      </VStack>
-      <Pressable
-        p='2'
-        onPress={() => {
-          Linking.openURL("https://github.com/OpeAbidemi");
-        }}
-      >
-        <Text mb='20' w='full' textAlign='center'>
-          {" "}
-          Developed by Ope Abidemi
+        <Text color='black' fontSize='xs'>
+          © Copyright {new Date().getFullYear()} Recruitment Press. All Rights
+          Reserved
         </Text>
-      </Pressable>
+      </VStack>
+      <VStack mb='20' alignItems='center'>
+        <Pressable
+          p='2'
+          onPress={() => {
+            Linking.openURL("https://github.com/OpeAbidemi");
+          }}
+        >
+          <Text w='full' textAlign='center'>
+            {" "}
+            Developed by Ope Abidemi
+          </Text>
+        </Pressable>
+        <Text color='black' fontSize='xs'>
+          All Rights Reserved
+        </Text>
+      </VStack>
     </VStack>
   );
 };
