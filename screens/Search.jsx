@@ -18,9 +18,18 @@ import {
 } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { ArrowLeft } from "phosphor-react-native";
+import { ArrowLeft, BookmarkSimple, Heart } from "phosphor-react-native";
 import { fonts } from "../theme";
-import { SearchItem } from "./Bookmarks";
+import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
+import { StoreContext } from "../context/Store";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Media from "../components/Media";
+import RenderHTML from "react-native-render-html";
+import moment from "moment";
+
+const headingStyle = {
+  fontSize: 20,
+};
 
 const Search = () => {
   const [data, setData] = React.useState([]);
@@ -108,6 +117,113 @@ const Search = () => {
         )}
       </VStack>
     </VStack>
+  );
+};
+
+export const SearchItem = ({ item }) => {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  const { width } = useWindowDimensions();
+
+  const { navigate } = useNavigation();
+
+  const {
+    likePost,
+    addBookmark,
+    likes,
+    bookmarks,
+    removeBookmark,
+    removeLike,
+  } = React.useContext(StoreContext);
+
+  React.useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`https://recruitmentpress.com/wp-json/wp/v2/posts/${item.id}`)
+      .then((res) => {
+        setLoading(false);
+        setData(res.data);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [item]);
+
+  if (loading || !data) {
+    return <HStack w='full' h='32' bg='gray.100' rounded='md' my='1' />;
+  }
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => {
+        navigate("Post", {
+          post: { id: item },
+        });
+      }}
+    >
+      <HStack
+        bg='white'
+        my='1'
+        p='3'
+        rounded='md'
+        alignItems='center'
+        space='2'
+      >
+        <Media id={data.featured_media} size='home-middle' rounded='md' />
+        <VStack flex='1' justifyContent='space-between' space='2'>
+          <RenderHTML
+            contentWidth={width}
+            baseStyle={headingStyle}
+            source={{
+              html: data.title.rendered,
+            }}
+          />
+          <HStack justifyContent='space-between'>
+            <Text color='gray.600'>{moment(data.date).format("ll")}</Text>
+            <HStack space='2'>
+              <Pressable
+                _pressed={{
+                  opacity: 0.5,
+                }}
+                rounded='full'
+                p='2'
+                onPress={() =>
+                  likes.includes(item.id)
+                    ? removeLike(item.id)
+                    : likePost(item.id)
+                }
+              >
+                <Heart
+                  weight={likes.includes(item.id) ? "fill" : "regular"}
+                  color={likes.includes(item.id) ? "#E44141" : "black"}
+                  size={22}
+                />
+              </Pressable>
+              <Pressable
+                _pressed={{
+                  opacity: 0.5,
+                }}
+                rounded='full'
+                p='2'
+                onPress={() =>
+                  bookmarks.includes(item.id)
+                    ? removeBookmark(item.id)
+                    : addBookmark(item.id)
+                }
+              >
+                <BookmarkSimple
+                  weight={bookmarks.includes(item.id) ? "fill" : "regular"}
+                  color='black'
+                  size={22}
+                />
+              </Pressable>
+            </HStack>
+          </HStack>
+        </VStack>
+      </HStack>
+    </TouchableOpacity>
   );
 };
 

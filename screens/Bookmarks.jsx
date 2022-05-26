@@ -104,7 +104,7 @@ export const SearchItem = ({ item }) => {
   }, [item]);
 
   if (loading || !data) {
-    return null;
+    return <HStack w='full' h='32' bg='gray.100' rounded='md' my='1' />;
   }
 
   return (
@@ -134,7 +134,7 @@ export const SearchItem = ({ item }) => {
             }}
           />
           <HStack justifyContent='space-between'>
-            <Text color='gray.600'>{moment(item.date).format("ll")}</Text>
+            <Text color='gray.600'>{moment(data.date).format("ll")}</Text>
             <HStack space='2'>
               <Pressable
                 _pressed={{
@@ -143,14 +143,14 @@ export const SearchItem = ({ item }) => {
                 rounded='full'
                 p='2'
                 onPress={() =>
-                  likes.includes(item.id)
-                    ? removeLike(item.id)
-                    : likePost(item.id)
+                  likes.includes(data.id)
+                    ? removeLike(data.id)
+                    : likePost(data.id)
                 }
               >
                 <Heart
-                  weight={likes.includes(item.id) ? "fill" : "regular"}
-                  color={likes.includes(item.id) ? "#E44141" : "black"}
+                  weight={likes.includes(data.id) ? "fill" : "regular"}
+                  color={likes.includes(data.id) ? "#E44141" : "black"}
                   size={22}
                 />
               </Pressable>
@@ -161,13 +161,13 @@ export const SearchItem = ({ item }) => {
                 rounded='full'
                 p='2'
                 onPress={() =>
-                  bookmarks.includes(item.id)
-                    ? removeBookmark(item.id)
-                    : addBookmark(item.id)
+                  bookmarks.includes(data.id)
+                    ? removeBookmark(data.id)
+                    : addBookmark(data.id)
                 }
               >
                 <BookmarkSimple
-                  weight={bookmarks.includes(item.id) ? "fill" : "regular"}
+                  weight={bookmarks.includes(data.id) ? "fill" : "regular"}
                   color='black'
                   size={22}
                 />
