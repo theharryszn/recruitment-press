@@ -24,7 +24,7 @@
     "expo-font": "~10.0.4",
     "expo-status-bar": "~1.2.0",
     "expo-updates": "~0.11.6",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "moti": "^0.17.1",
     "native-base": "^3.3.4",
     "phosphor-react-native": "^1.1.1",
